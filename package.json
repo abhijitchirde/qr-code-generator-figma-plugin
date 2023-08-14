@@ -8,8 +8,8 @@
     "dev": "webpack --mode=development --watch",
     "build": "webpack --mode=production"
   },
-  "author": "",
-  "license": "",
+  "author": "Abhijit Chirde",
+  "license": "MIT",
   "devDependencies": {
     "@figma/plugin-typings": "*",
     "@types/node": "^20.2.5",
