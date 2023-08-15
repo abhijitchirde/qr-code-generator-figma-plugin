@@ -13,6 +13,7 @@
   "devDependencies": {
     "@figma/plugin-typings": "*",
     "@types/node": "^20.2.5",
+    "@types/qrcode.react": "^1.0.2",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
     "css-loader": "^6.8.1",
@@ -26,6 +27,7 @@
     "webpack-cli": "^5.1.1"
   },
   "dependencies": {
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
