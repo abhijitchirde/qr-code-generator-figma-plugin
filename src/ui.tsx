@@ -11,6 +11,7 @@ declare function require(path: string): any;
 
 function App() {
   const [inputString, setInputString] = React.useState("");
+  const [colour, setColour] = React.useState("#000000");
 
   const inputChangeHandler = (e) => {
     setInputString(e.target.value);
@@ -20,36 +21,74 @@ function App() {
     setInputString("");
   };
 
-  const downloadQRPng = () => {
-    const canvas = document.getElementById("qr-main") as HTMLCanvasElement;
+  const colorInputHandler = (e) => {
+    setColour(e.target.value);
+  };
+
+  const qrSVG = (
+    <QRCodeSVG
+      value={inputString}
+      size={210}
+      fgColor={colour}
+      level="L"
+      id="qr-svg"
+    />
+  );
+
+  const qrPNG = (
+    <QRCodeCanvas
+      value={inputString}
+      size={210}
+      fgColor={colour}
+      level="L"
+      id="qr-png"
+    />
+  );
+
+  const downloadPNG = () => {
+    const canvas = document.getElementById("qr-png") as HTMLCanvasElement;
+
     const pngURL = canvas
       .toDataURL("image/png")
       .replace("image/png", "image/octet-stream");
 
     const array = base64toBytes(pngURL);
 
+    function base64toBytes(input) {
+      const BASE64_MARKER = ";base64,";
+
+      var base64Index = input.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+      var base64 = input.substring(base64Index);
+      var raw = window.atob(base64);
+      var rawLength = raw.length;
+      var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+      for (let i = 0; i < rawLength; i++) {
+        array[i] = raw.charCodeAt(i);
+      }
+      return array;
+    }
+
     parent.postMessage(
       {
-        pluginMessage: { type: "png-data", data: { array } },
+        pluginMessage: { type: "png", data: { array } },
       },
       "*"
     );
   };
 
-  function base64toBytes(input) {
-    const BASE64_MARKER = ";base64,";
+  const downloadSVG = () => {
+    const svg = document.getElementById("qr-svg");
 
-    var base64Index = input.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-    var base64 = input.substring(base64Index);
-    var raw = window.atob(base64);
-    var rawLength = raw.length;
-    var array = new Uint8Array(new ArrayBuffer(rawLength));
+    const temp = new XMLSerializer();
 
-    for (let i = 0; i < rawLength; i++) {
-      array[i] = raw.charCodeAt(i);
-    }
-    return array;
-  }
+    const svgString = temp.serializeToString(svg);
+
+    parent.postMessage(
+      { pluginMessage: { type: "svg", data: { svgString } } },
+      "*"
+    );
+  };
 
   return (
     <main>
@@ -65,7 +104,6 @@ function App() {
         <textarea
           className="input-string"
           name="inputString"
-          wrap="soft"
           rows={4}
           id="inputString"
           value={inputString}
@@ -74,17 +112,30 @@ function App() {
       </div>
 
       {/* Display QR code on plugin window */}
-      <div className="qr-container">
+      <div className="main-container">
         {inputString === "" ? (
-          "Nothing to show here :)"
+          <p className="placeholder-text">
+            Please add your text above to generate QR code
+          </p>
         ) : (
-          <QRCodeCanvas
-            value={inputString}
-            size={210}
-            fgColor="#000"
-            level="H"
-            id="qr-main"
-          />
+          <div>
+            <div className="color-picker-div">
+              <p className="color-label">Change color</p>
+              <input
+                type="color"
+                className="input-picker"
+                name="color"
+                id="color"
+                value={colour}
+                onInput={colorInputHandler}
+              />
+            </div>
+
+            <div className="qr-container">
+              {qrPNG}
+              <div style={{ display: "none" }}>{qrSVG}</div>
+            </div>
+          </div>
         )}
       </div>
 
@@ -94,16 +145,19 @@ function App() {
           <button
             className="button-pri"
             disabled={inputString == ""}
-            onClick={downloadQRPng}
+            onClick={downloadPNG}
           >
             Add as PNG
           </button>
-          <button className="button-pri" disabled={inputString == ""}>
+          <button
+            className="button-pri"
+            disabled={inputString == ""}
+            onClick={downloadSVG}
+          >
             Add as SVG
           </button>
         </div>
       </div>
-
       {/* Credit section  */}
       <BottomSection />
     </main>

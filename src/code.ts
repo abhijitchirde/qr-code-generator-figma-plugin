@@ -1,25 +1,29 @@
-figma.showUI(__html__, { width: 280, height: 445 });
+figma.showUI(__html__, { width: 300, height: 480 });
 
 figma.ui.onmessage = (msg) => {
   const nodes: SceneNode[] = [];
 
-  if ((msg.type = "png")) {
-    // figma.currentPage.appendChild(qrImage);
-    // nodes.push(qrImage);
-    // figma.viewport.scrollAndZoomIntoView(nodes);
-    // const array = toUtf8Bytes(msg.data.pngURL);
+  if (msg.type == "png") {
     const input = msg.data.array;
-    // // const array = Uint8Array.from(atob(input), (c) => c.charCodeAt(0));
-    const frame = figma.createFrame() as FrameNode;
-    frame.resize(150, 150);
+    const qr = figma.createFrame() as FrameNode;
+    qr.resize(210, 210);
     const qrImage = figma.createImage(Uint8Array.from(input)) as Image;
-
-    frame.fills = [
-      { type: "IMAGE", imageHash: qrImage.hash, scaleMode: "FIT" },
-    ];
-
-    figma.currentPage.appendChild(frame);
-    nodes.push(frame);
+    qr.fills = [{ type: "IMAGE", imageHash: qrImage.hash, scaleMode: "FIT" }];
+    qr.name = "QR";
+    figma.currentPage.appendChild(qr);
+    nodes.push(qr);
     figma.viewport.scrollAndZoomIntoView(nodes);
+
+    return false;
+  }
+
+  if (msg.type == "svg") {
+    const svgInput = msg.data.svgString;
+    const newSVG = figma.createNodeFromSvg(svgInput);
+    newSVG.name = "QR";
+    figma.currentPage.appendChild(newSVG);
+    nodes.push(newSVG);
+    figma.viewport.scrollAndZoomIntoView(nodes);
+    return false;
   }
 };

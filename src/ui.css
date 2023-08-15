@@ -11,25 +11,6 @@ body {
   gap: 1rem;
 }
 
-/* Page heading */
-.heading-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0.4rem 0;
-}
-
-.heading-text {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #0049d8;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-}
-
 /* Heading styling */
 
 .section-label {
@@ -44,7 +25,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
 }
 
 /* Content div  */
@@ -55,8 +35,7 @@ body {
   flex-direction: column;
   justify-content: center;
   gap: 0.5rem;
-
-  margin: 0.6rem 0.6rem;
+  margin: 0.6rem 1rem;
 }
 
 /* Input components */
@@ -65,14 +44,30 @@ body {
   resize: none;
 }
 
-/* QR code  */
-.qr-container {
+/* Containers  */
+.main-container {
   display: flex;
   width: 100%;
-  height: 250px;
+  height: 240px;
   justify-content: center;
   align-items: center;
-  color: rgb(238, 174, 151);
+  margin: 1rem 0 1.5rem;
+}
+
+.qr-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* Container text */
+.placeholder-text {
+  text-align: center;
+  font-size: 0.8rem;
+  color: gray;
+  padding: 0 2rem;
+  line-height: 2;
 }
 
 /* buttons container div */
@@ -83,6 +78,7 @@ body {
   flex-wrap: wrap;
   gap: 0.6rem;
   width: 100%;
+  padding: 1.5rem 0 0.8rem;
   justify-content: center;
 }
 
@@ -146,6 +142,7 @@ body {
   flex-direction: row;
   justify-content: flex-end;
   padding: 0 1rem;
+  margin: 0;
 }
 
 .credit-text {
@@ -159,9 +156,61 @@ a:visited {
   color: rgb(158, 171, 196);
   cursor: pointer;
   text-decoration: none;
+  padding: 0;
 }
 
 a:hover {
   color: rgb(108, 125, 155);
   transition-duration: 0.3s;
+}
+
+/* Colour picker styling */
+
+.color-picker-div {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  margin: 0.6rem 0 1rem;
+  width: 100%;
+}
+
+input[type="color"] {
+  width: 20%;
+  height: 1.3rem;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  margin: 2% 2%;
+  padding: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: solid 1px rgb(255, 255, 255);
+  border-radius: 5px;
+}
+
+.color-label {
+  font-size: 0.7rem;
+  align-self: center;
+  padding: 0;
+  margin: 0;
+}
+
+.hex-input {
+  display: inline-block;
+  width: 45%;
+  font-weight: 500;
+  height: 1.3rem;
+  vertical-align: middle;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  border: 1px solid #7c99ac;
+  text-align: center;
+  border-radius: 4px;
+  margin: 2% 2%;
 }
