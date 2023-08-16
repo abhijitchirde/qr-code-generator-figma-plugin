@@ -30,7 +30,7 @@ function App() {
       value={inputString}
       size={210}
       fgColor={colour}
-      level="L"
+      level="M"
       id="qr-svg"
     />
   );
@@ -38,9 +38,9 @@ function App() {
   const qrPNG = (
     <QRCodeCanvas
       value={inputString}
-      size={210}
+      size={1000}
       fgColor={colour}
-      level="L"
+      level="M"
       id="qr-png"
     />
   );
@@ -132,8 +132,8 @@ function App() {
             </div>
 
             <div className="qr-container">
-              {qrPNG}
-              <div style={{ display: "none" }}>{qrSVG}</div>
+              {qrSVG}
+              <div style={{ display: "none" }}>{qrPNG}</div>
             </div>
           </div>
         )}
