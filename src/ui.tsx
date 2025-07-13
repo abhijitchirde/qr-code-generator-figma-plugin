@@ -12,32 +12,32 @@ declare function require(path: string): any;
 const stylePreviews: Record<string, React.ReactNode> = {
   square: (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <rect x="4" y="4" width="16" height="16" rx="2" fill="#111" />
+      <rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" />
     </svg>
   ),
   dot: (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="8" fill="#111" />
+      <circle cx="12" cy="12" r="8" fill="currentColor" />
     </svg>
   ),
   "extra-rounded": (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <rect x="4" y="4" width="16" height="16" rx="6" fill="#111" />
+      <rect x="4" y="4" width="16" height="16" rx="6" fill="currentColor" />
     </svg>
   ),
   circle: (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="10" fill="#111" />
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
     </svg>
   ),
   rounded: (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <rect x="4" y="4" width="16" height="16" rx="4" fill="#111" />
+      <rect x="4" y="4" width="16" height="16" rx="4" fill="currentColor" />
     </svg>
   ),
   classy: (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <rect x="6" y="6" width="12" height="12" rx="4" fill="#111" />
+      <rect x="6" y="6" width="12" height="12" rx="4" fill="currentColor" />
       <rect
         x="4"
         y="4"
@@ -45,14 +45,14 @@ const stylePreviews: Record<string, React.ReactNode> = {
         height="16"
         rx="2"
         fill="none"
-        stroke="#111"
+        stroke="currentColor"
         strokeWidth="2"
       />
     </svg>
   ),
   "classy-rounded": (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <rect x="6" y="6" width="12" height="12" rx="6" fill="#111" />
+      <rect x="6" y="6" width="12" height="12" rx="6" fill="currentColor" />
       <rect
         x="4"
         y="4"
@@ -60,14 +60,14 @@ const stylePreviews: Record<string, React.ReactNode> = {
         height="16"
         rx="6"
         fill="none"
-        stroke="#111"
+        stroke="currentColor"
         strokeWidth="2"
       />
     </svg>
   ),
   dots: (
     <svg width="24" height="24" viewBox="0 0 24 24">
-      <g fill="#111">
+      <g fill="currentColor">
         <circle cx="8" cy="8" r="3" />
         <circle cx="16" cy="8" r="3" />
         <circle cx="8" cy="16" r="3" />
@@ -82,16 +82,17 @@ const cornerOptions: StyleOption[] = [
   { value: "square", label: "Square Corners", preview: stylePreviews.square },
   { value: "dot", label: "Dot Corners", preview: stylePreviews.dot },
   {
-    value: "extra-rounded",
-    label: "Extra Rounded Corners",
-    preview: stylePreviews["extra-rounded"],
-  },
-  { value: "circle", label: "Circle Corners", preview: stylePreviews.circle },
-  {
     value: "rounded",
     label: "Rounded Corners",
     preview: stylePreviews.rounded,
   },
+  {
+    value: "extra-rounded",
+    label: "Squircle Corners",
+    preview: stylePreviews["extra-rounded"],
+  },
+  // { value: "circle", label: "Circle Corners", preview: stylePreviews.circle },
+
   { value: "classy", label: "Classy Corners", preview: stylePreviews.classy },
   {
     value: "classy-rounded",
@@ -109,7 +110,7 @@ const cellOptions: StyleOption[] = [
   { value: "rounded", label: "Rounded Cells", preview: stylePreviews.rounded },
   {
     value: "extra-rounded",
-    label: "Extra Rounded Cells",
+    label: "Squircle Cells",
     preview: stylePreviews["extra-rounded"],
   },
   { value: "classy", label: "Classy Cells", preview: stylePreviews.classy },
@@ -118,13 +119,14 @@ const cellOptions: StyleOption[] = [
     label: "Classy Rounded Cells",
     preview: stylePreviews["classy-rounded"],
   },
-  { value: "circle", label: "Circle Cells", preview: stylePreviews.circle },
+  // { value: "circle", label: "Circle Cells", preview: stylePreviews.circle },
 ];
 
 function App() {
   // Set default values to valid options
   const [inputString, setInputString] = React.useState("");
   const [colour, setColour] = React.useState("#000000");
+  const [bgColor, setBgColor] = React.useState("#ffffff");
   const [cornerStyle, setCornerStyle] = React.useState("square"); // cornersSquareOptions
   const [centerStyle, setCenterStyle] = React.useState("square"); // cornersDotOptions
   const [cellStyle, setCellStyle] = React.useState("square"); // dotsOptions
@@ -135,8 +137,8 @@ function App() {
   React.useEffect(() => {
     if (!previewRef.current) {
       previewRef.current = new QRCodeStyling({
-        width: 180,
-        height: 180,
+        width: 160,
+        height: 160,
         data: inputString || "https://x.com/abhichirde ",
         image: "",
         dotsOptions: {
@@ -158,7 +160,7 @@ function App() {
             "square",
         },
         backgroundOptions: {
-          color: "#fff",
+          color: bgColor,
         },
       });
       const previewArea = document.getElementById("qr-preview-area");
@@ -193,9 +195,12 @@ function App() {
             centerOptions.find((opt) => opt.value === centerStyle)?.value ||
             "square",
         },
+        backgroundOptions: {
+          color: bgColor,
+        },
       });
     }
-  }, [inputString, colour, cornerStyle, centerStyle, cellStyle]);
+  }, [inputString, colour, bgColor, cornerStyle, centerStyle, cellStyle]);
 
   // Add as PNG: create a new QRCodeStyling instance and send to Figma canvas
   const addAsPNG = async () => {
@@ -226,7 +231,7 @@ function App() {
         type: validCenter,
       },
       backgroundOptions: {
-        color: "#fff",
+        color: bgColor,
       },
     });
     const blob = await qrCode.getRawData("png");
@@ -252,8 +257,8 @@ function App() {
       ? cellStyle
       : "square";
     const qrCode = new QRCodeStyling({
-      width: 210,
-      height: 210,
+      width: 180,
+      height: 180,
       data: inputString || "https://x.com/abhichirde ",
       image: "",
       dotsOptions: {
@@ -269,7 +274,7 @@ function App() {
         type: validCenter,
       },
       backgroundOptions: {
-        color: "#fff",
+        color: bgColor,
       },
     });
     const blob = await qrCode.getRawData("svg");
@@ -283,8 +288,16 @@ function App() {
   };
 
   const colorInputHandler = (e) => setColour(e.target.value);
+  const bgColorInputHandler = (e) => setBgColor(e.target.value);
   const inputChangeHandler = (e) => setInputString(e.target.value);
   const clearHandler = () => setInputString("");
+  const resetStylesHandler = () => {
+    setColour("#000000");
+    setBgColor("#ffffff");
+    setCornerStyle("square");
+    setCenterStyle("square");
+    setCellStyle("square");
+  };
 
   return (
     <main>
@@ -315,14 +328,25 @@ function App() {
         </div>
         <div className="style-select-stack">
           <div className="color-picker-div">
-            <p className="color-label">Color</p>
+            <p className="color-label">QR Color</p>
             <input
               type="color"
               className="input-picker"
-              name="color"
+              name="qr-color"
               id="color"
               value={colour}
               onInput={colorInputHandler}
+            />
+          </div>
+          <div className="color-picker-div">
+            <p className="color-label">BG Color</p>
+            <input
+              type="color"
+              className="input-picker"
+              name="bg-color"
+              id="bg-color"
+              value={bgColor}
+              onInput={bgColorInputHandler}
             />
           </div>
 
@@ -344,6 +368,14 @@ function App() {
             onChange={setCellStyle}
             className="style-dropdown"
           />
+
+          <button
+            className="reset-styles-link"
+            onClick={resetStylesHandler}
+            type="button"
+          >
+            Reset styles
+          </button>
         </div>
       </div>
 
