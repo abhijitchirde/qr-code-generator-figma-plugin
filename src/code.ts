@@ -1,4 +1,4 @@
-figma.showUI(__html__, { width: 260, height: 440 });
+figma.showUI(__html__, { width: 395, height: 450 });
 
 figma.ui.onmessage = (msg) => {
   const nodes: SceneNode[] = [];
@@ -26,7 +26,7 @@ figma.ui.onmessage = (msg) => {
   if (msg.type == "png") {
     const input = msg.data.array;
     const qr = figma.createFrame() as FrameNode;
-    qr.resize(210, 210);
+    qr.resize(200, 200);
     const qrImage = figma.createImage(Uint8Array.from(input)) as Image;
     qr.fills = [{ type: "IMAGE", imageHash: qrImage.hash, scaleMode: "FIT" }];
     qr.name = "QR";
