@@ -28,7 +28,7 @@ function App() {
   const qrSVG = (
     <QRCodeSVG
       value={inputString}
-      size={210}
+      size={120}
       fgColor={colour}
       level="M"
       id="qr-svg"
@@ -95,8 +95,8 @@ function App() {
       {/* Input string section */}
       <div className="content-div">
         <div className="label-button">
-          <label className="section-label">Enter your text</label>
-          <button className="button-sec" onClick={clearHandler}>
+          {/* <label className="section-label">Enter your text</label> */}
+          <button className="button-clear" onClick={clearHandler}>
             Clear
           </button>
         </div>
@@ -108,6 +108,7 @@ function App() {
           id="inputString"
           value={inputString}
           onInput={inputChangeHandler}
+          placeholder="Enter your text or URL here..."
         />
       </div>
 
@@ -118,7 +119,7 @@ function App() {
             Please add your text above to generate QR code
           </p>
         ) : (
-          <div>
+          <div className="inside-main-container">
             <div className="color-picker-div">
               <p className="color-label">Change color</p>
               <input
