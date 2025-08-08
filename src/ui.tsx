@@ -176,7 +176,7 @@ function App() {
   React.useEffect(() => {
     if (previewRef.current) {
       previewRef.current.update({
-        data: inputString || "https://x.com/abhichirde ",
+        data: inputString || "https://x.com/abhxde ",
         dotsOptions: {
           color: colour,
           type:
