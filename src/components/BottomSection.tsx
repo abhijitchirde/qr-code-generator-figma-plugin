@@ -11,7 +11,7 @@ const BottomSection = () => {
       <div className="credit-container">
         <p className="credit-text">
           <a
-            href="https://x.com/abhxde"
+            href="https://x.com/abhijitwt"
             target="_blank"
             rel="noopener noreferrer"
           >

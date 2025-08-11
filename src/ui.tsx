@@ -139,7 +139,7 @@ function App() {
       previewRef.current = new QRCodeStyling({
         width: 160,
         height: 160,
-        data: inputString || "https://x.com/abhichirde ",
+        data: inputString || "https://x.com/abhijitwt ",
         image: "",
         dotsOptions: {
           color: colour,
@@ -176,7 +176,7 @@ function App() {
   React.useEffect(() => {
     if (previewRef.current) {
       previewRef.current.update({
-        data: inputString || "https://x.com/abhxde ",
+        data: inputString || "https://x.com/abhijitwt ",
         dotsOptions: {
           color: colour,
           type:
@@ -216,7 +216,7 @@ function App() {
     const qrCode = new QRCodeStyling({
       width: 280,
       height: 280,
-      data: inputString || "https://x.com/abhichirde ",
+      data: inputString || "https://x.com/abhijitwt ",
       image: "",
       dotsOptions: {
         color: colour,
@@ -259,7 +259,7 @@ function App() {
     const qrCode = new QRCodeStyling({
       width: 180,
       height: 180,
-      data: inputString || "https://x.com/abhichirde ",
+      data: inputString || "https://x.com/abhijitwt ",
       image: "",
       dotsOptions: {
         color: colour,
