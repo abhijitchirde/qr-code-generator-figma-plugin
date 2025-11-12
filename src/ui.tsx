@@ -392,14 +392,17 @@ function App() {
         </button>
       </div>
 
-      {/* Style selection section */}
-
+      {/* Logo selection section */}
       <div className="style-select-stack">
         <CustomLogo
           logoImage={logoImage}
           onLogoChange={handleLogoChange}
           onLogoRemove={handleLogoRemove}
         />
+      </div>
+
+      {/* Style selection section */}
+      <div className="style-select-stack">
         <div className="color-picker-div-row">
           <label className="style-dropdown-external-label">Global</label>
           <div className="color-picker-div">
@@ -496,7 +499,7 @@ function App() {
           </button>
           <button
             className="button-pri"
-            disabled={inputString === ""}
+            disabled={inputString === "" || logoImage !== ""}
             onClick={addAsSVG}
           >
             Add as SVG
