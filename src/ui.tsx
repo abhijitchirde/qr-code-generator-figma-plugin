@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom/client";
 import "./ui.css";
 import BottomSection from "./components/BottomSection";
 import StyleDropdown, { StyleOption } from "./components/StyleDropdown";
+import CustomLogo from "./components/CustomLogo";
 // @ts-ignore
 import QRCodeStyling from "qr-code-styling";
 
@@ -125,11 +126,15 @@ const cellOptions: StyleOption[] = [
 function App() {
   // Set default values to valid options
   const [inputString, setInputString] = React.useState("");
-  const [colour, setColour] = React.useState("#000000");
+  const [qrColor, setQrColor] = React.useState("#000000");
+  const [cornerColor, setCornerColor] = React.useState("#000000");
+  const [centerColor, setCenterColor] = React.useState("#000000");
+  const [cellColor, setCellColor] = React.useState("#000000");
   const [bgColor, setBgColor] = React.useState("#ffffff");
   const [cornerStyle, setCornerStyle] = React.useState("square"); // cornersSquareOptions
   const [centerStyle, setCenterStyle] = React.useState("square"); // cornersDotOptions
   const [cellStyle, setCellStyle] = React.useState("square"); // dotsOptions
+  const [logoImage, setLogoImage] = React.useState<string>(""); // Base64 image string for logo
 
   const previewRef = React.useRef<any>(null);
 
@@ -139,22 +144,22 @@ function App() {
       previewRef.current = new QRCodeStyling({
         width: 160,
         height: 160,
-        data: inputString || "https://x.com/abhichirde ",
-        image: "",
+        data: inputString || "https://abhijitchirde.com ",
+        image: logoImage,
         dotsOptions: {
-          color: colour,
+          color: cellColor,
           type:
             cellOptions.find((opt) => opt.value === cellStyle)?.value ||
             "square",
         },
         cornersSquareOptions: {
-          color: colour,
+          color: cornerColor,
           type:
             cornerOptions.find((opt) => opt.value === cornerStyle)?.value ||
             "square",
         },
         cornersDotOptions: {
-          color: colour,
+          color: centerColor,
           type:
             centerOptions.find((opt) => opt.value === centerStyle)?.value ||
             "square",
@@ -176,21 +181,22 @@ function App() {
   React.useEffect(() => {
     if (previewRef.current) {
       previewRef.current.update({
-        data: inputString || "https://x.com/abhichirde ",
+        data: inputString || "https://abhijitchirde.com ",
+        image: logoImage,
         dotsOptions: {
-          color: colour,
+          color: cellColor,
           type:
             cellOptions.find((opt) => opt.value === cellStyle)?.value ||
             "square",
         },
         cornersSquareOptions: {
-          color: colour,
+          color: cornerColor,
           type:
             cornerOptions.find((opt) => opt.value === cornerStyle)?.value ||
             "square",
         },
         cornersDotOptions: {
-          color: colour,
+          color: centerColor,
           type:
             centerOptions.find((opt) => opt.value === centerStyle)?.value ||
             "square",
@@ -200,7 +206,17 @@ function App() {
         },
       });
     }
-  }, [inputString, colour, bgColor, cornerStyle, centerStyle, cellStyle]);
+  }, [
+    inputString,
+    cornerColor,
+    centerColor,
+    cellColor,
+    bgColor,
+    cornerStyle,
+    centerStyle,
+    cellStyle,
+    logoImage,
+  ]);
 
   // Add as PNG: create a new QRCodeStyling instance and send to Figma canvas
   const addAsPNG = async () => {
@@ -216,18 +232,18 @@ function App() {
     const qrCode = new QRCodeStyling({
       width: 280,
       height: 280,
-      data: inputString || "https://x.com/abhichirde ",
-      image: "",
+      data: inputString || "https://abhijitchirde.com ",
+      image: logoImage,
       dotsOptions: {
-        color: colour,
+        color: cellColor,
         type: validCell,
       },
       cornersSquareOptions: {
-        color: colour,
+        color: cornerColor,
         type: validCorner,
       },
       cornersDotOptions: {
-        color: colour,
+        color: centerColor,
         type: validCenter,
       },
       backgroundOptions: {
@@ -259,18 +275,18 @@ function App() {
     const qrCode = new QRCodeStyling({
       width: 180,
       height: 180,
-      data: inputString || "https://x.com/abhichirde ",
-      image: "",
+      data: inputString || "https://abhijitchirde.com ",
+      image: logoImage,
       dotsOptions: {
-        color: colour,
+        color: cellColor,
         type: validCell,
       },
       cornersSquareOptions: {
-        color: colour,
+        color: cornerColor,
         type: validCorner,
       },
       cornersDotOptions: {
-        color: colour,
+        color: centerColor,
         type: validCenter,
       },
       backgroundOptions: {
@@ -287,59 +303,117 @@ function App() {
     );
   };
 
-  const colorInputHandler = (e) => setColour(e.target.value);
+  const qrColorInputHandler = (e) => {
+    const newColor = e.target.value;
+    setQrColor(newColor);
+    setCornerColor(newColor);
+    setCenterColor(newColor);
+    setCellColor(newColor);
+  };
+  const cornerColorInputHandler = (e) => setCornerColor(e.target.value);
+  const centerColorInputHandler = (e) => setCenterColor(e.target.value);
+  const cellColorInputHandler = (e) => setCellColor(e.target.value);
   const bgColorInputHandler = (e) => setBgColor(e.target.value);
   const inputChangeHandler = (e) => setInputString(e.target.value);
   const clearHandler = () => setInputString("");
+
+  const handleLogoChange = (image: string) => {
+    setLogoImage(image);
+  };
+
+  const handleLogoRemove = () => {
+    setLogoImage("");
+  };
+
   const resetStylesHandler = () => {
-    setColour("#000000");
+    setQrColor("#000000");
+    setCornerColor("#000000");
+    setCenterColor("#000000");
+    setCellColor("#000000");
     setBgColor("#ffffff");
     setCornerStyle("square");
     setCenterStyle("square");
     setCellStyle("square");
+    setLogoImage("");
   };
 
   return (
     <main>
       {/* Input string section */}
       <div className="content-div">
-        <div className="label-button">
-          <button className="button-clear" onClick={clearHandler}>
-            Clear
-          </button>
-        </div>
+        {inputString && (
+          <div className="label-button">
+            <button
+              className="button-clear"
+              onClick={clearHandler}
+              type="button"
+              title="Clear"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="m19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
+            </button>
+          </div>
+        )}
         <textarea
           className="input-string"
           name="inputString"
-          rows={4}
+          rows={2}
           id="inputString"
           value={inputString}
           onInput={inputChangeHandler}
-          placeholder="Enter your text or URL here to generate QR..."
+          placeholder="Enter your text here..."
         />
       </div>
 
       {/* Display QR code on plugin window */}
-      <div className="main-container">
-        <div className="inside-main-container">
-          <div className="qr-container">
-            <div id="qr-preview-area" />
-          </div>
-        </div>
-        <div className="style-select-stack">
+
+      <div id="qr-preview-area" />
+
+      <div className="reset-styles-container">
+        <button
+          className="reset-styles-link"
+          onClick={resetStylesHandler}
+          type="button"
+        >
+          Reset styles
+        </button>
+      </div>
+
+      {/* Logo selection section */}
+      <div className="style-select-stack">
+        <CustomLogo
+          logoImage={logoImage}
+          onLogoChange={handleLogoChange}
+          onLogoRemove={handleLogoRemove}
+        />
+      </div>
+
+      {/* Style selection section */}
+      <div className="style-select-stack">
+        <div className="color-picker-div-row">
+          <label className="style-dropdown-external-label">Global</label>
           <div className="color-picker-div">
-            <p className="color-label">QR Color</p>
             <input
               type="color"
               className="input-picker"
               name="qr-color"
-              id="color"
-              value={colour}
-              onInput={colorInputHandler}
+              id="qr-color"
+              value={qrColor}
+              onInput={qrColorInputHandler}
             />
-          </div>
-          <div className="color-picker-div">
-            <p className="color-label">BG Color</p>
             <input
               type="color"
               className="input-picker"
@@ -349,38 +423,72 @@ function App() {
               onInput={bgColorInputHandler}
             />
           </div>
+        </div>
 
-          <StyleDropdown
-            options={cornerOptions}
-            value={cornerStyle}
-            onChange={setCornerStyle}
-            className="style-dropdown"
-          />
-          <StyleDropdown
-            options={centerOptions}
-            value={centerStyle}
-            onChange={setCenterStyle}
-            className="style-dropdown"
-          />
-          <StyleDropdown
-            options={cellOptions}
-            value={cellStyle}
-            onChange={setCellStyle}
-            className="style-dropdown"
-          />
-
-          <button
-            className="reset-styles-link"
-            onClick={resetStylesHandler}
-            type="button"
-          >
-            Reset styles
-          </button>
+        <div className="style-dropdown-wrapper">
+          <label className="style-dropdown-external-label">Corners</label>
+          <div className="style-dropdown-row">
+            <StyleDropdown
+              options={cornerOptions}
+              value={cornerStyle}
+              onChange={setCornerStyle}
+              className="style-dropdown"
+            />
+            <div className="style-dropdown-gap"></div>
+            <input
+              type="color"
+              className="input-picker inline-color-picker"
+              name="corner-color"
+              id="corner-color"
+              value={cornerColor}
+              onInput={cornerColorInputHandler}
+            />
+          </div>
+        </div>
+        <div className="style-dropdown-wrapper">
+          <label className="style-dropdown-external-label">Center</label>
+          <div className="style-dropdown-row">
+            <StyleDropdown
+              options={centerOptions}
+              value={centerStyle}
+              onChange={setCenterStyle}
+              className="style-dropdown"
+            />
+            <div className="style-dropdown-gap"></div>
+            <input
+              type="color"
+              className="input-picker inline-color-picker"
+              name="center-color"
+              id="center-color"
+              value={centerColor}
+              onInput={centerColorInputHandler}
+            />
+          </div>
+        </div>
+        <div className="style-dropdown-wrapper">
+          <label className="style-dropdown-external-label">Cells</label>
+          <div className="style-dropdown-row">
+            <StyleDropdown
+              options={cellOptions}
+              value={cellStyle}
+              onChange={setCellStyle}
+              className="style-dropdown"
+            />
+            <div className="style-dropdown-gap"></div>
+            <input
+              type="color"
+              className="input-picker inline-color-picker"
+              name="cell-color"
+              id="cell-color"
+              value={cellColor}
+              onInput={cellColorInputHandler}
+            />
+          </div>
         </div>
       </div>
 
       {/* Buttons */}
-      <div className="content-div">
+      <div className="content-div buttons-container">
         <div className="buttons-div">
           <button
             className="button-pri"
@@ -391,7 +499,7 @@ function App() {
           </button>
           <button
             className="button-pri"
-            disabled={inputString === ""}
+            disabled={inputString === "" || logoImage !== ""}
             onClick={addAsSVG}
           >
             Add as SVG

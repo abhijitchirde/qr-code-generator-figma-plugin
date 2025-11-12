@@ -6,7 +6,7 @@
   "ui": "dist/ui.html",
   "capabilities": [],
   "enableProposedApi": false,
-  "editorType": ["figma", "figjam"],
+  "editorType": ["figma", "figjam", "slides", "buzz"],
   "networkAccess": {
     "allowedDomains": ["none"]
   },

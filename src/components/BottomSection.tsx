@@ -11,11 +11,11 @@ const BottomSection = () => {
       <div className="credit-container">
         <p className="credit-text">
           <a
-            href="https://x.com/abhichirde"
+            href="https://abhijitchirde.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            by Abhijit
+            by Abhijit Chirde
           </a>
         </p>
       </div>
