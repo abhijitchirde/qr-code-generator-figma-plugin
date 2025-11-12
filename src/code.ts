@@ -1,4 +1,4 @@
-figma.showUI(__html__, { width: 395, height: 450 });
+figma.showUI(__html__, { width: 300, height: 750 });
 
 figma.ui.onmessage = (msg) => {
   const nodes: SceneNode[] = [];
