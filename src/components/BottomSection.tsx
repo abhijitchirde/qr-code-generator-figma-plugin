@@ -15,7 +15,7 @@ const BottomSection = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            by Abhijit
+            by Abhijit Chirde
           </a>
         </p>
       </div>
